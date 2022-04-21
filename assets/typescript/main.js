@@ -17,6 +17,7 @@ form.addEventListener('submit', function (e) {
             status: ''
         });
         checkActive();
+        saveTodoList();
     }
     inputContent.value = '';
 });
@@ -32,6 +33,7 @@ function addTodoElement(todo) {
         checkActive();
         tickAllTodo();
         count();
+        saveTodoList();
     });
     deleteATodo();
     editTodo();
@@ -50,6 +52,7 @@ function deleteATodo() {
             tickAllTodo();
             hiddenFooter();
             count();
+            saveTodoList();
         });
     });
 }
@@ -67,12 +70,14 @@ function editTodo() {
                         spanTodo.innerText = editTodo_1.value.trim();
                         spanTodo.classList.remove('hidden');
                         editTodo_1.classList.add('hidden');
+                        saveTodoList();
                     }
                 });
                 editTodo_1.addEventListener('blur', function (e) {
                     spanTodo.innerText = editTodo_1.value.trim();
                     editTodo_1.classList.add('hidden');
                     spanTodo.classList.remove('hidden');
+                    saveTodoList();
                 });
             }
         });
@@ -100,6 +105,7 @@ function tickAllTodo() {
                     item.classList.add('completed');
                     checkActive();
                     count();
+                    saveTodoList();
                 }
             });
         }
@@ -109,6 +115,7 @@ function tickAllTodo() {
                     item.classList.remove('completed');
                     checkActive();
                     count();
+                    saveTodoList();
                 }
             });
         }
@@ -206,6 +213,27 @@ function deleteCompleted() {
             item.parentElement.remove();
             hiddenFooter();
             tickAllTodo();
+            saveTodoList();
         });
     });
 }
+function saveTodoList() {
+    var todoList = document.querySelectorAll('.item-todo');
+    var todoStorage = [];
+    todoList.forEach(function (item) {
+        var text = item.querySelector('span:first-child').innerText;
+        var status = item.querySelector('span:first-child').getAttribute('class');
+        todoStorage.push({
+            text: text,
+            status: status
+        });
+    });
+    localStorage.setItem('todoList', JSON.stringify(todoStorage));
+}
+function init() {
+    var data = JSON.parse(localStorage.getItem('todoList') || "[]");
+    data.forEach(function (item) {
+        addTodoElement(item);
+    });
+}
+init();

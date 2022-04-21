@@ -22,6 +22,7 @@ form.addEventListener('submit', (e) => {
       status: ''
     })
     checkActive()
+    saveTodoList()
   }
   inputContent.value = ''
 })
@@ -49,6 +50,7 @@ function addTodoElement(todo: todo) {
     checkActive()
     tickAllTodo()
     count()
+    saveTodoList()
   })
 
   deleteATodo()
@@ -68,6 +70,7 @@ function deleteATodo() {
         tickAllTodo()
         hiddenFooter()
         count()
+        saveTodoList()
       })
   })
 }
@@ -85,12 +88,14 @@ function editTodo() {
             spanTodo.innerText = editTodo.value.trim()
             spanTodo.classList.remove('hidden')
             editTodo.classList.add('hidden')
+            saveTodoList()
           }
         })
         editTodo.addEventListener('blur', (e) => {
           spanTodo.innerText = editTodo.value.trim()
           editTodo.classList.add('hidden')
           spanTodo.classList.remove('hidden')
+          saveTodoList()
         })
       }
     })
@@ -117,6 +122,7 @@ function tickAllTodo() {
           item.classList.add('completed');
           checkActive()
           count()
+          saveTodoList()
         }
       })
     } else {
@@ -125,6 +131,7 @@ function tickAllTodo() {
           item.classList.remove('completed');
           checkActive()
           count()
+          saveTodoList()
         }
       })
     }
@@ -224,6 +231,29 @@ function deleteCompleted() {
       (item.parentElement as HTMLElement).remove()
       hiddenFooter()
       tickAllTodo()
+      saveTodoList()
     })
   })
 }
+function saveTodoList() {
+  let todoList = document.querySelectorAll('.item-todo')
+  let todoStorage: todo[] = []
+  todoList.forEach((item) => {
+    let text = (item.querySelector('span:first-child') as HTMLElement).innerText
+    let status = ((item.querySelector('span:first-child') as HTMLElement).getAttribute('class') as string)
+
+    todoStorage.push({
+      text,
+      status
+    })
+  })
+  localStorage.setItem('todoList', JSON.stringify(todoStorage))
+}
+
+function init() {
+  let data: todo[] = JSON.parse(localStorage.getItem('todoList') || "[]")
+  data.forEach(item => {
+    addTodoElement(item)
+  })
+}
+init()
