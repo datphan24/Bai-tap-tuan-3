@@ -44,6 +44,7 @@ function addTodoElement(todo: todo) {
   deleteATodo()
   editTodo()
   tickAllTodo()
+  hiddenFooter()
 }
 function deleteATodo() {
   let itemTodos = document.querySelectorAll('.item-todo')
@@ -108,4 +109,17 @@ function tickAllTodo() {
       })
     }
   })
+}
+function hiddenFooter() {
+  let itemTodos = document.querySelectorAll('.item-todo')
+  let stat = document.querySelector('.stat') as HTMLElement
+  let footer = document.querySelector('footer') as HTMLElement
+
+  if (itemTodos.length == 0) {
+    stat.classList.add('hidden')
+    footer.classList.add('hidden')
+  } else {
+    stat.classList.remove('hidden')
+    footer.classList.remove('hidden')
+  }
 }

@@ -26,6 +26,7 @@ function addTodoElement(todo) {
     deleteATodo();
     editTodo();
     tickAllTodo();
+    hiddenFooter();
 }
 function deleteATodo() {
     var itemTodos = document.querySelectorAll('.item-todo');
@@ -92,4 +93,17 @@ function tickAllTodo() {
             });
         }
     });
+}
+function hiddenFooter() {
+    var itemTodos = document.querySelectorAll('.item-todo');
+    var stat = document.querySelector('.stat');
+    var footer = document.querySelector('footer');
+    if (itemTodos.length == 0) {
+        stat.classList.add('hidden');
+        footer.classList.add('hidden');
+    }
+    else {
+        stat.classList.remove('hidden');
+        footer.classList.remove('hidden');
+    }
 }
