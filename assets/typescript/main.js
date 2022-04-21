@@ -1,6 +1,7 @@
 var inputContent = document.querySelector('.add-content .add-input');
 var form = document.querySelector('form');
 var todos = document.querySelector('.list-todo');
+var checkBox = document.querySelector('.checkbox');
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     var contentValue = inputContent.value.trim();
@@ -24,6 +25,7 @@ function addTodoElement(todo) {
     });
     deleteATodo();
     editTodo();
+    tickAllTodo();
 }
 function deleteATodo() {
     var itemTodos = document.querySelectorAll('.item-todo');
@@ -57,5 +59,37 @@ function editTodo() {
                 });
             }
         });
+    });
+}
+function tickAllTodo() {
+    var listAllSpan = document.querySelectorAll('.item-todo span:first-child');
+    var listAllSpanComplete = document.querySelectorAll('.item-todo .completed');
+    checkBox.checked = false;
+    //if there isn't value then hidden
+    if (listAllSpan.length === 0) {
+        checkBox.style.opacity = '0';
+    }
+    else {
+        checkBox.style.opacity = '1';
+    }
+    //if all span completed then checked checkbox
+    if (listAllSpan.length === listAllSpanComplete.length) {
+        checkBox.checked = true;
+    }
+    checkBox.addEventListener('click', function () {
+        if (this.checked == true) {
+            listAllSpan.forEach(function (item) {
+                if (!item.classList.contains('completed')) {
+                    item.classList.add('completed');
+                }
+            });
+        }
+        else {
+            listAllSpan.forEach(function (item) {
+                if (item.classList.contains('completed')) {
+                    item.classList.remove('completed');
+                }
+            });
+        }
     });
 }

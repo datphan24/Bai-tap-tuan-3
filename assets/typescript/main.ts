@@ -1,6 +1,7 @@
 const inputContent = document.querySelector('.add-content .add-input') as HTMLInputElement
 const form = document.querySelector('form') as HTMLFormElement
 const todos = document.querySelector('.list-todo') as HTMLElement
+const checkBox = document.querySelector('.checkbox') as HTMLInputElement
 
 interface todo {
   text: string;
@@ -42,6 +43,7 @@ function addTodoElement(todo: todo) {
 
   deleteATodo()
   editTodo()
+  tickAllTodo()
 }
 function deleteATodo() {
   let itemTodos = document.querySelectorAll('.item-todo')
@@ -75,5 +77,35 @@ function editTodo() {
         })
       }
     })
+  })
+}
+function tickAllTodo() {
+  let listAllSpan = document.querySelectorAll('.item-todo span:first-child')
+  let listAllSpanComplete = document.querySelectorAll('.item-todo .completed')
+  checkBox.checked = false
+  //if there isn't value then hidden
+  if (listAllSpan.length === 0) {
+    checkBox.style.opacity = '0';
+  }else {
+    checkBox.style.opacity = '1';
+  }
+  //if all span completed then checked checkbox
+  if (listAllSpan.length === listAllSpanComplete.length) {
+    checkBox.checked = true
+  }
+  checkBox.addEventListener('click', function() {
+    if (this.checked == true) {
+      listAllSpan.forEach(item => {
+        if (!item.classList.contains('completed')) {
+          item.classList.add('completed');
+        }
+      })
+    } else {
+      listAllSpan.forEach(item => {
+        if (item.classList.contains('completed')) {
+          item.classList.remove('completed');
+        }
+      })
+    }
   })
 }
