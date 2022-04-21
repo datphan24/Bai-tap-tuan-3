@@ -34,6 +34,12 @@ function addTodoElement(todo: todo) {
   liTodo.setAttribute('class', 'item-todo general-size')
   todos.appendChild(liTodo)
 
+  //tick a todo completed
+  let spanTodo = liTodo.querySelector('span:first-child') as HTMLElement
+  spanTodo.addEventListener('click', function(e) {
+    this.classList.toggle('completed')
+  })
+
   deleteATodo()
 }
 function deleteATodo() {
