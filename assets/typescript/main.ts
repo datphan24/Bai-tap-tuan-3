@@ -45,6 +45,8 @@ function addTodoElement(todo: todo) {
   let spanTodo = liTodo.querySelector('span:first-child') as HTMLElement
   spanTodo.addEventListener('click', function(e) {
     this.classList.toggle('completed')
+    tickAllTodo()
+    count()
   })
 
   deleteATodo()
@@ -52,6 +54,7 @@ function addTodoElement(todo: todo) {
   tickAllTodo()
   hiddenFooter()
   getActive()
+  count()
 }
 function deleteATodo() {
   let itemTodos = document.querySelectorAll('.item-todo')
@@ -59,6 +62,9 @@ function deleteATodo() {
     (item.querySelector('span:last-child') as HTMLElement)
       .addEventListener('click', function(e) {
         (this.parentElement as HTMLElement).remove()
+        tickAllTodo()
+        hiddenFooter()
+        count()
       })
   })
 }
@@ -106,12 +112,14 @@ function tickAllTodo() {
       listAllSpan.forEach(item => {
         if (!item.classList.contains('completed')) {
           item.classList.add('completed');
+          count()
         }
       })
     } else {
       listAllSpan.forEach(item => {
         if (item.classList.contains('completed')) {
           item.classList.remove('completed');
+          count()
         }
       })
     }
@@ -173,4 +181,12 @@ function getActive() {
       }
     })
   })
+}
+function count() {
+  let listAllSpan = document.querySelectorAll('.item-todo span:first-child')
+  let listSpanCompleted = document.querySelectorAll('.item-todo .completed')
+  let countNumber = document.querySelector('.number-item') as HTMLElement
+  let count = listAllSpan.length - listSpanCompleted.length
+
+  countNumber.innerHTML = `${count}`
 }

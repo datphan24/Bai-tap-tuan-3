@@ -28,12 +28,15 @@ function addTodoElement(todo) {
     var spanTodo = liTodo.querySelector('span:first-child');
     spanTodo.addEventListener('click', function (e) {
         this.classList.toggle('completed');
+        tickAllTodo();
+        count();
     });
     deleteATodo();
     editTodo();
     tickAllTodo();
     hiddenFooter();
     getActive();
+    count();
 }
 function deleteATodo() {
     var itemTodos = document.querySelectorAll('.item-todo');
@@ -41,6 +44,9 @@ function deleteATodo() {
         item.querySelector('span:last-child')
             .addEventListener('click', function (e) {
             this.parentElement.remove();
+            tickAllTodo();
+            hiddenFooter();
+            count();
         });
     });
 }
@@ -89,6 +95,7 @@ function tickAllTodo() {
             listAllSpan.forEach(function (item) {
                 if (!item.classList.contains('completed')) {
                     item.classList.add('completed');
+                    count();
                 }
             });
         }
@@ -96,6 +103,7 @@ function tickAllTodo() {
             listAllSpan.forEach(function (item) {
                 if (item.classList.contains('completed')) {
                     item.classList.remove('completed');
+                    count();
                 }
             });
         }
@@ -155,4 +163,11 @@ function getActive() {
             }
         });
     });
+}
+function count() {
+    var listAllSpan = document.querySelectorAll('.item-todo span:first-child');
+    var listSpanCompleted = document.querySelectorAll('.item-todo .completed');
+    var countNumber = document.querySelector('.number-item');
+    var count = listAllSpan.length - listSpanCompleted.length;
+    countNumber.innerHTML = "".concat(count);
 }
