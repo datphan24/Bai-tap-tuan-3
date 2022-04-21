@@ -9,7 +9,7 @@ const buttonAll = document.getElementById(all) as HTMLButtonElement
 const buttonActive = document.getElementById(active) as HTMLButtonElement
 const buttonCompleted = document.getElementById(completed) as HTMLButtonElement
 
-interface todo {
+interface Todo {
   text: string;
   status: string
 }
@@ -26,7 +26,7 @@ form.addEventListener('submit', (e) => {
   }
   inputContent.value = ''
 })
-function addTodoElement(todo: todo) {
+function addTodoElement(todo: Todo) {
   let liTodo = document.createElement('li')
 
   liTodo.innerHTML = `
@@ -45,7 +45,7 @@ function addTodoElement(todo: todo) {
 
   //tick completed a todo
   let spanTodo = liTodo.querySelector('span:first-child') as HTMLElement
-  spanTodo.addEventListener('click', function(e) {
+  spanTodo.addEventListener('click', function() {
     this.classList.toggle('completed')
     checkActive()
     tickAllTodo()
@@ -65,7 +65,7 @@ function deleteATodo() {
   let itemTodos = document.querySelectorAll('.item-todo')
   itemTodos.forEach(item => {
     (item.querySelector('span:last-child') as HTMLElement)
-      .addEventListener('click', function(e) {
+      .addEventListener('click', function() {
         (this.parentElement as HTMLElement).remove()
         tickAllTodo()
         hiddenFooter()
@@ -78,20 +78,28 @@ function editTodo() {
   let itemTodos = document.querySelectorAll('.item-todo')
   itemTodos.forEach(item => {
     let spanTodo = item.querySelector('span:first-child') as HTMLElement
-    spanTodo.addEventListener('dblclick', function(e) {
+    spanTodo.addEventListener('dblclick', function() {
       this.classList.add('hidden')
       if (spanTodo.classList.contains('hidden')) {
         let editTodo = item.querySelector('.add-input') as HTMLInputElement
         editTodo.classList.remove('hidden')
+        editTodo.focus()
+        editTodo.setSelectionRange(editTodo.value.length, editTodo.value.length);
         editTodo.addEventListener('keyup', (e) => {
-          if (e.key === 'Enter') {
+          if (e.key === 'Enter' && editTodo.value === '') {
+            (this.parentElement as HTMLElement).remove()
             spanTodo.innerText = editTodo.value.trim()
             spanTodo.classList.remove('hidden')
             editTodo.classList.add('hidden')
             saveTodoList()
+            count()
           }
         })
-        editTodo.addEventListener('blur', (e) => {
+        editTodo.addEventListener('blur', () => {
+          if (editTodo.value === '') {
+            (this.parentElement as HTMLElement).remove()
+            count()
+          }
           spanTodo.innerText = editTodo.value.trim()
           editTodo.classList.add('hidden')
           spanTodo.classList.remove('hidden')
@@ -116,7 +124,7 @@ function tickAllTodo() {
     checkBox.checked = true
   }
   checkBox.addEventListener('click', function() {
-    if (this.checked == true) {
+    if (this.checked) {
       listAllSpan.forEach(item => {
         if (!item.classList.contains('completed')) {
           item.classList.add('completed');
@@ -142,7 +150,7 @@ function hiddenFooter() {
   let stat = document.querySelector('.stat') as HTMLElement
   let footer = document.querySelector('footer') as HTMLElement
 
-  if (itemTodos.length == 0) {
+  if (itemTodos.length === 0) {
     stat.classList.add('hidden')
     footer.classList.add('hidden')
   } else {
@@ -237,7 +245,7 @@ function deleteCompleted() {
 }
 function saveTodoList() {
   let todoList = document.querySelectorAll('.item-todo')
-  let todoStorage: todo[] = []
+  let todoStorage: Todo[] = []
   todoList.forEach((item) => {
     let text = (item.querySelector('span:first-child') as HTMLElement).innerText
     let status = ((item.querySelector('span:first-child') as HTMLElement).getAttribute('class') as string)
@@ -249,9 +257,8 @@ function saveTodoList() {
   })
   localStorage.setItem('todoList', JSON.stringify(todoStorage))
 }
-
 function init() {
-  let data: todo[] = JSON.parse(localStorage.getItem('todoList') || "[]")
+  let data: Todo[] = JSON.parse(localStorage.getItem('todoList') || "[]")
   data.forEach(item => {
     addTodoElement(item)
   })

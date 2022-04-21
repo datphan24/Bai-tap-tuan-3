@@ -28,7 +28,7 @@ function addTodoElement(todo) {
     todos.appendChild(liTodo);
     //tick completed a todo
     var spanTodo = liTodo.querySelector('span:first-child');
-    spanTodo.addEventListener('click', function (e) {
+    spanTodo.addEventListener('click', function () {
         this.classList.toggle('completed');
         checkActive();
         tickAllTodo();
@@ -47,7 +47,7 @@ function deleteATodo() {
     var itemTodos = document.querySelectorAll('.item-todo');
     itemTodos.forEach(function (item) {
         item.querySelector('span:last-child')
-            .addEventListener('click', function (e) {
+            .addEventListener('click', function () {
             this.parentElement.remove();
             tickAllTodo();
             hiddenFooter();
@@ -60,20 +60,29 @@ function editTodo() {
     var itemTodos = document.querySelectorAll('.item-todo');
     itemTodos.forEach(function (item) {
         var spanTodo = item.querySelector('span:first-child');
-        spanTodo.addEventListener('dblclick', function (e) {
+        spanTodo.addEventListener('dblclick', function () {
+            var _this = this;
             this.classList.add('hidden');
             if (spanTodo.classList.contains('hidden')) {
                 var editTodo_1 = item.querySelector('.add-input');
                 editTodo_1.classList.remove('hidden');
+                editTodo_1.focus();
+                editTodo_1.setSelectionRange(editTodo_1.value.length, editTodo_1.value.length);
                 editTodo_1.addEventListener('keyup', function (e) {
-                    if (e.key === 'Enter') {
+                    if (e.key === 'Enter' && editTodo_1.value === '') {
+                        _this.parentElement.remove();
                         spanTodo.innerText = editTodo_1.value.trim();
                         spanTodo.classList.remove('hidden');
                         editTodo_1.classList.add('hidden');
                         saveTodoList();
+                        count();
                     }
                 });
-                editTodo_1.addEventListener('blur', function (e) {
+                editTodo_1.addEventListener('blur', function () {
+                    if (editTodo_1.value === '') {
+                        _this.parentElement.remove();
+                        count();
+                    }
                     spanTodo.innerText = editTodo_1.value.trim();
                     editTodo_1.classList.add('hidden');
                     spanTodo.classList.remove('hidden');
@@ -99,7 +108,7 @@ function tickAllTodo() {
         checkBox.checked = true;
     }
     checkBox.addEventListener('click', function () {
-        if (this.checked == true) {
+        if (this.checked) {
             listAllSpan.forEach(function (item) {
                 if (!item.classList.contains('completed')) {
                     item.classList.add('completed');
@@ -125,7 +134,7 @@ function hiddenFooter() {
     var itemTodos = document.querySelectorAll('.item-todo');
     var stat = document.querySelector('.stat');
     var footer = document.querySelector('footer');
-    if (itemTodos.length == 0) {
+    if (itemTodos.length === 0) {
         stat.classList.add('hidden');
         footer.classList.add('hidden');
     }
