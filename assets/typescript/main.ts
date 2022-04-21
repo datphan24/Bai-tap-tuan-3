@@ -34,13 +34,14 @@ function addTodoElement(todo: todo) {
   liTodo.setAttribute('class', 'item-todo general-size')
   todos.appendChild(liTodo)
 
-  //tick a todo completed
+  //tick completed a todo
   let spanTodo = liTodo.querySelector('span:first-child') as HTMLElement
   spanTodo.addEventListener('click', function(e) {
     this.classList.toggle('completed')
   })
 
   deleteATodo()
+  editTodo()
 }
 function deleteATodo() {
   let itemTodos = document.querySelectorAll('.item-todo')
@@ -49,5 +50,30 @@ function deleteATodo() {
       .addEventListener('click', function(e) {
         (this.parentElement as HTMLElement).remove()
       })
+  })
+}
+function editTodo() {
+  let itemTodos = document.querySelectorAll('.item-todo')
+  itemTodos.forEach(item => {
+    let spanTodo = item.querySelector('span:first-child') as HTMLElement
+    spanTodo.addEventListener('dblclick', function(e) {
+      this.classList.add('hidden')
+      if (spanTodo.classList.contains('hidden')) {
+        let editTodo = item.querySelector('.add-input') as HTMLInputElement
+        editTodo.classList.remove('hidden')
+        editTodo.addEventListener('keyup', (e) => {
+          if (e.key === 'Enter') {
+            spanTodo.innerText = editTodo.value.trim()
+            spanTodo.classList.remove('hidden')
+            editTodo.classList.add('hidden')
+          }
+        })
+        editTodo.addEventListener('blur', (e) => {
+          spanTodo.innerText = editTodo.value.trim()
+          editTodo.classList.add('hidden')
+          spanTodo.classList.remove('hidden')
+        })
+      }
+    })
   })
 }
