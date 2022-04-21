@@ -2,6 +2,12 @@ const inputContent = document.querySelector('.add-content .add-input') as HTMLIn
 const form = document.querySelector('form') as HTMLFormElement
 const todos = document.querySelector('.list-todo') as HTMLElement
 const checkBox = document.querySelector('.checkbox') as HTMLInputElement
+const all = 'all'
+const active = 'active'
+const completed = 'completed'
+const buttonAll = document.getElementById(all) as HTMLButtonElement
+const buttonActive = document.getElementById(active) as HTMLButtonElement
+const buttonCompleted = document.getElementById(completed) as HTMLButtonElement
 
 interface todo {
   text: string;
@@ -45,6 +51,7 @@ function addTodoElement(todo: todo) {
   editTodo()
   tickAllTodo()
   hiddenFooter()
+  getActive()
 }
 function deleteATodo() {
   let itemTodos = document.querySelectorAll('.item-todo')
@@ -122,4 +129,48 @@ function hiddenFooter() {
     stat.classList.remove('hidden')
     footer.classList.remove('hidden')
   }
+}
+function getActive() {
+  let itemTodos = document.querySelectorAll('.item-todo')
+
+  //button all
+  buttonAll.addEventListener('click', function() {
+    this.classList.add('on')
+    buttonActive.classList.remove('on')
+    buttonCompleted.classList.remove('on')
+
+    itemTodos.forEach(item => {
+      if (item.classList.contains('hidden')) {
+        item.classList.remove('hidden')
+      }
+    })
+  })
+  //button active
+  buttonActive.addEventListener('click', function() {
+    this.classList.add('on')
+    buttonAll.classList.remove('on')
+    buttonCompleted.classList.remove('on')
+
+    itemTodos.forEach(item => {
+      if ((item.querySelector('span:first-child') as HTMLElement).classList.contains('completed')) {
+        item.classList.add('hidden')
+      } else {
+        item.classList.remove('hidden')
+      }
+    })
+  })
+  //button completed
+  buttonCompleted.addEventListener('click', function() {
+    this.classList.add('on')
+    buttonAll.classList.remove('on')
+    buttonActive.classList.remove('on')
+
+    itemTodos.forEach(item => {
+      if ((item.querySelector('span:first-child') as HTMLElement).classList.contains('completed')) {
+        item.classList.remove('hidden')
+      } else {
+        item.classList.add('hidden')
+      }
+    })
+  })
 }

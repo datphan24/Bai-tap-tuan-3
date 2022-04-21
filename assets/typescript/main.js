@@ -2,6 +2,12 @@ var inputContent = document.querySelector('.add-content .add-input');
 var form = document.querySelector('form');
 var todos = document.querySelector('.list-todo');
 var checkBox = document.querySelector('.checkbox');
+var all = 'all';
+var active = 'active';
+var completed = 'completed';
+var buttonAll = document.getElementById(all);
+var buttonActive = document.getElementById(active);
+var buttonCompleted = document.getElementById(completed);
 form.addEventListener('submit', function (e) {
     e.preventDefault();
     var contentValue = inputContent.value.trim();
@@ -27,6 +33,7 @@ function addTodoElement(todo) {
     editTodo();
     tickAllTodo();
     hiddenFooter();
+    getActive();
 }
 function deleteATodo() {
     var itemTodos = document.querySelectorAll('.item-todo');
@@ -106,4 +113,46 @@ function hiddenFooter() {
         stat.classList.remove('hidden');
         footer.classList.remove('hidden');
     }
+}
+function getActive() {
+    var itemTodos = document.querySelectorAll('.item-todo');
+    //button all
+    buttonAll.addEventListener('click', function () {
+        this.classList.add('on');
+        buttonActive.classList.remove('on');
+        buttonCompleted.classList.remove('on');
+        itemTodos.forEach(function (item) {
+            if (item.classList.contains('hidden')) {
+                item.classList.remove('hidden');
+            }
+        });
+    });
+    //button active
+    buttonActive.addEventListener('click', function () {
+        this.classList.add('on');
+        buttonAll.classList.remove('on');
+        buttonCompleted.classList.remove('on');
+        itemTodos.forEach(function (item) {
+            if (item.querySelector('span:first-child').classList.contains('completed')) {
+                item.classList.add('hidden');
+            }
+            else {
+                item.classList.remove('hidden');
+            }
+        });
+    });
+    //button completed
+    buttonCompleted.addEventListener('click', function () {
+        this.classList.add('on');
+        buttonAll.classList.remove('on');
+        buttonActive.classList.remove('on');
+        itemTodos.forEach(function (item) {
+            if (item.querySelector('span:first-child').classList.contains('completed')) {
+                item.classList.remove('hidden');
+            }
+            else {
+                item.classList.add('hidden');
+            }
+        });
+    });
 }
