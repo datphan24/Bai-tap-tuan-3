@@ -39,6 +39,7 @@ function addTodoElement(todo) {
     hiddenFooter();
     getActive();
     count();
+    deleteCompleted();
 }
 function deleteATodo() {
     var itemTodos = document.querySelectorAll('.item-todo');
@@ -196,4 +197,15 @@ function count() {
     var countNumber = document.querySelector('.number-item');
     var count = listAllSpan.length - listSpanCompleted.length;
     countNumber.innerHTML = "".concat(count);
+}
+function deleteCompleted() {
+    var buttonClearCompleted = document.querySelector('#clear-completed');
+    buttonClearCompleted.addEventListener('click', function () {
+        var listSpanCompleted = document.querySelectorAll('.item-todo .completed');
+        listSpanCompleted.forEach(function (item) {
+            item.parentElement.remove();
+            hiddenFooter();
+            tickAllTodo();
+        });
+    });
 }

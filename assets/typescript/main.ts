@@ -57,6 +57,7 @@ function addTodoElement(todo: todo) {
   hiddenFooter()
   getActive()
   count()
+  deleteCompleted()
 }
 function deleteATodo() {
   let itemTodos = document.querySelectorAll('.item-todo')
@@ -213,4 +214,16 @@ function count() {
   let count = listAllSpan.length - listSpanCompleted.length
 
   countNumber.innerHTML = `${count}`
+}
+function deleteCompleted() {
+  let buttonClearCompleted = document.querySelector('#clear-completed') as HTMLButtonElement
+
+  buttonClearCompleted.addEventListener('click', function () {
+    let listSpanCompleted = document.querySelectorAll('.item-todo .completed')
+    listSpanCompleted.forEach(item => {
+      (item.parentElement as HTMLElement).remove()
+      hiddenFooter()
+      tickAllTodo()
+    })
+  })
 }
