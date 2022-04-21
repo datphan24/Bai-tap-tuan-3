@@ -16,6 +16,7 @@ form.addEventListener('submit', function (e) {
             text: contentValue,
             status: ''
         });
+        checkActive();
     }
     inputContent.value = '';
 });
@@ -28,6 +29,7 @@ function addTodoElement(todo) {
     var spanTodo = liTodo.querySelector('span:first-child');
     spanTodo.addEventListener('click', function (e) {
         this.classList.toggle('completed');
+        checkActive();
         tickAllTodo();
         count();
     });
@@ -95,6 +97,7 @@ function tickAllTodo() {
             listAllSpan.forEach(function (item) {
                 if (!item.classList.contains('completed')) {
                     item.classList.add('completed');
+                    checkActive();
                     count();
                 }
             });
@@ -103,6 +106,7 @@ function tickAllTodo() {
             listAllSpan.forEach(function (item) {
                 if (item.classList.contains('completed')) {
                     item.classList.remove('completed');
+                    checkActive();
                     count();
                 }
             });
@@ -162,6 +166,28 @@ function getActive() {
                 item.classList.add('hidden');
             }
         });
+    });
+}
+function checkActive() {
+    var liTodo = document.querySelectorAll('.item-todo');
+    liTodo.forEach(function (item) {
+        var spanTodo = item.querySelector('span:first-child');
+        if (buttonActive.classList.contains('on')) {
+            if (spanTodo.classList.contains('completed')) {
+                item.classList.add('hidden');
+            }
+            else {
+                item.classList.remove('hidden');
+            }
+        }
+        else if (buttonCompleted.classList.contains('on')) {
+            if (!spanTodo.classList.contains('completed')) {
+                item.classList.add('hidden');
+            }
+            else {
+                item.classList.remove('hidden');
+            }
+        }
     });
 }
 function count() {

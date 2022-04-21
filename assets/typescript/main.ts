@@ -21,6 +21,7 @@ form.addEventListener('submit', (e) => {
       text: contentValue,
       status: ''
     })
+    checkActive()
   }
   inputContent.value = ''
 })
@@ -45,6 +46,7 @@ function addTodoElement(todo: todo) {
   let spanTodo = liTodo.querySelector('span:first-child') as HTMLElement
   spanTodo.addEventListener('click', function(e) {
     this.classList.toggle('completed')
+    checkActive()
     tickAllTodo()
     count()
   })
@@ -112,6 +114,7 @@ function tickAllTodo() {
       listAllSpan.forEach(item => {
         if (!item.classList.contains('completed')) {
           item.classList.add('completed');
+          checkActive()
           count()
         }
       })
@@ -119,6 +122,7 @@ function tickAllTodo() {
       listAllSpan.forEach(item => {
         if (item.classList.contains('completed')) {
           item.classList.remove('completed');
+          checkActive()
           count()
         }
       })
@@ -180,6 +184,26 @@ function getActive() {
         item.classList.add('hidden')
       }
     })
+  })
+}
+function checkActive() {
+  let liTodo = document.querySelectorAll('.item-todo')
+  liTodo.forEach(item => {
+    let spanTodo = item.querySelector('span:first-child') as HTMLElement
+
+    if (buttonActive.classList.contains('on')) {
+      if (spanTodo.classList.contains('completed')) {
+        item.classList.add('hidden')
+      } else {
+        item.classList.remove('hidden')
+      }
+    } else if (buttonCompleted.classList.contains('on')) {
+      if (!spanTodo.classList.contains('completed')) {
+        item.classList.add('hidden')
+      } else {
+        item.classList.remove('hidden')
+      }
+    }
   })
 }
 function count() {
