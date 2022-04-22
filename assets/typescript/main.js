@@ -69,8 +69,7 @@ function editTodo() {
                 editTodo_1.focus();
                 editTodo_1.setSelectionRange(editTodo_1.value.length, editTodo_1.value.length);
                 editTodo_1.addEventListener('keyup', function (e) {
-                    if (e.key === 'Enter' && editTodo_1.value === '') {
-                        _this.parentElement.remove();
+                    if (e.key === 'Enter') {
                         spanTodo.innerText = editTodo_1.value.trim();
                         spanTodo.classList.remove('hidden');
                         editTodo_1.classList.add('hidden');
