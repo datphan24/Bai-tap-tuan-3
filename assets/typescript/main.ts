@@ -43,7 +43,7 @@ function addTodoElement(todo: Todo) {
   liTodo.setAttribute('class', 'item-todo general-size')
   todos.appendChild(liTodo)
 
-  //tick completed a todo
+  // tick completed a todo
   let spanTodo = liTodo.querySelector('span:first-child') as HTMLElement
   spanTodo.addEventListener('click', function() {
     this.classList.toggle('completed')
@@ -62,8 +62,8 @@ function addTodoElement(todo: Todo) {
   deleteCompleted()
 }
 function deleteATodo() {
-  let itemTodos = document.querySelectorAll('.item-todo')
-  itemTodos.forEach(item => {
+  let todoList = document.querySelectorAll('.item-todo')
+  todoList.forEach(item => {
     (item.querySelector('span:last-child') as HTMLElement)
       .addEventListener('click', function() {
         (this.parentElement as HTMLElement).remove()
@@ -75,8 +75,8 @@ function deleteATodo() {
   })
 }
 function editTodo() {
-  let itemTodos = document.querySelectorAll('.item-todo')
-  itemTodos.forEach(item => {
+  let todoList = document.querySelectorAll('.item-todo')
+  todoList.forEach(item => {
     let spanTodo = item.querySelector('span:first-child') as HTMLElement
     spanTodo.addEventListener('dblclick', function() {
       this.classList.add('hidden')
@@ -91,7 +91,6 @@ function editTodo() {
             spanTodo.classList.remove('hidden')
             editTodo.classList.add('hidden')
             saveTodoList()
-            count()
           }
         })
         editTodo.addEventListener('blur', () => {
@@ -145,11 +144,11 @@ function tickAllTodo() {
   })
 }
 function hiddenFooter() {
-  let itemTodos = document.querySelectorAll('.item-todo')
+  let todoList = document.querySelectorAll('.item-todo')
   let stat = document.querySelector('.stat') as HTMLElement
   let footer = document.querySelector('footer') as HTMLElement
 
-  if (itemTodos.length === 0) {
+  if (todoList.length === 0) {
     stat.classList.add('hidden')
     footer.classList.add('hidden')
   } else {
@@ -158,7 +157,7 @@ function hiddenFooter() {
   }
 }
 function getActive() {
-  let itemTodos = document.querySelectorAll('.item-todo')
+  let todoList = document.querySelectorAll('.item-todo')
 
   //button all
   buttonAll.addEventListener('click', function() {
@@ -166,7 +165,7 @@ function getActive() {
     buttonActive.classList.remove('on')
     buttonCompleted.classList.remove('on')
 
-    itemTodos.forEach(item => {
+    todoList.forEach(item => {
       if (item.classList.contains('hidden')) {
         item.classList.remove('hidden')
       }
@@ -178,7 +177,7 @@ function getActive() {
     buttonAll.classList.remove('on')
     buttonCompleted.classList.remove('on')
 
-    itemTodos.forEach(item => {
+    todoList.forEach(item => {
       if ((item.querySelector('span:first-child') as HTMLElement).classList.contains('completed')) {
         item.classList.add('hidden')
       } else {
@@ -192,7 +191,7 @@ function getActive() {
     buttonAll.classList.remove('on')
     buttonActive.classList.remove('on')
 
-    itemTodos.forEach(item => {
+    todoList.forEach(item => {
       if ((item.querySelector('span:first-child') as HTMLElement).classList.contains('completed')) {
         item.classList.remove('hidden')
       } else {
@@ -202,10 +201,9 @@ function getActive() {
   })
 }
 function checkActive() {
-  let liTodo = document.querySelectorAll('.item-todo')
-  liTodo.forEach(item => {
+  let todoList = document.querySelectorAll('.item-todo')
+  todoList.forEach(item => {
     let spanTodo = item.querySelector('span:first-child') as HTMLElement
-
     if (buttonActive.classList.contains('on')) {
       if (spanTodo.classList.contains('completed')) {
         item.classList.add('hidden')

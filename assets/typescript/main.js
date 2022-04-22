@@ -26,7 +26,7 @@ function addTodoElement(todo) {
     liTodo.innerHTML = "\n    <span class='".concat(todo.status, "'>").concat(todo.text, "</span>\n    <input\n      type=\"text\"\n      value=\"").concat(todo.text, "\"\n      class=\"add-input hidden\"\n    />\n    <span>\n      <i class=\"fa fa-times-circle\" aria-hidden=\"true\"></i>\n    </span>\n  ");
     liTodo.setAttribute('class', 'item-todo general-size');
     todos.appendChild(liTodo);
-    //tick completed a todo
+    // tick completed a todo
     var spanTodo = liTodo.querySelector('span:first-child');
     spanTodo.addEventListener('click', function () {
         this.classList.toggle('completed');
@@ -44,8 +44,8 @@ function addTodoElement(todo) {
     deleteCompleted();
 }
 function deleteATodo() {
-    var itemTodos = document.querySelectorAll('.item-todo');
-    itemTodos.forEach(function (item) {
+    var todoList = document.querySelectorAll('.item-todo');
+    todoList.forEach(function (item) {
         item.querySelector('span:last-child')
             .addEventListener('click', function () {
             this.parentElement.remove();
@@ -57,8 +57,8 @@ function deleteATodo() {
     });
 }
 function editTodo() {
-    var itemTodos = document.querySelectorAll('.item-todo');
-    itemTodos.forEach(function (item) {
+    var todoList = document.querySelectorAll('.item-todo');
+    todoList.forEach(function (item) {
         var spanTodo = item.querySelector('span:first-child');
         spanTodo.addEventListener('dblclick', function () {
             var _this = this;
@@ -74,7 +74,6 @@ function editTodo() {
                         spanTodo.classList.remove('hidden');
                         editTodo_1.classList.add('hidden');
                         saveTodoList();
-                        count();
                     }
                 });
                 editTodo_1.addEventListener('blur', function () {
@@ -130,10 +129,10 @@ function tickAllTodo() {
     });
 }
 function hiddenFooter() {
-    var itemTodos = document.querySelectorAll('.item-todo');
+    var todoList = document.querySelectorAll('.item-todo');
     var stat = document.querySelector('.stat');
     var footer = document.querySelector('footer');
-    if (itemTodos.length === 0) {
+    if (todoList.length === 0) {
         stat.classList.add('hidden');
         footer.classList.add('hidden');
     }
@@ -143,13 +142,13 @@ function hiddenFooter() {
     }
 }
 function getActive() {
-    var itemTodos = document.querySelectorAll('.item-todo');
+    var todoList = document.querySelectorAll('.item-todo');
     //button all
     buttonAll.addEventListener('click', function () {
         this.classList.add('on');
         buttonActive.classList.remove('on');
         buttonCompleted.classList.remove('on');
-        itemTodos.forEach(function (item) {
+        todoList.forEach(function (item) {
             if (item.classList.contains('hidden')) {
                 item.classList.remove('hidden');
             }
@@ -160,7 +159,7 @@ function getActive() {
         this.classList.add('on');
         buttonAll.classList.remove('on');
         buttonCompleted.classList.remove('on');
-        itemTodos.forEach(function (item) {
+        todoList.forEach(function (item) {
             if (item.querySelector('span:first-child').classList.contains('completed')) {
                 item.classList.add('hidden');
             }
@@ -174,7 +173,7 @@ function getActive() {
         this.classList.add('on');
         buttonAll.classList.remove('on');
         buttonActive.classList.remove('on');
-        itemTodos.forEach(function (item) {
+        todoList.forEach(function (item) {
             if (item.querySelector('span:first-child').classList.contains('completed')) {
                 item.classList.remove('hidden');
             }
@@ -185,8 +184,8 @@ function getActive() {
     });
 }
 function checkActive() {
-    var liTodo = document.querySelectorAll('.item-todo');
-    liTodo.forEach(function (item) {
+    var todoList = document.querySelectorAll('.item-todo');
+    todoList.forEach(function (item) {
         var spanTodo = item.querySelector('span:first-child');
         if (buttonActive.classList.contains('on')) {
             if (spanTodo.classList.contains('completed')) {
