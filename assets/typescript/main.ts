@@ -97,6 +97,8 @@ function editTodo() {
           if (editTodo.value === '') {
             (this.parentElement as HTMLElement).remove()
             count()
+            tickAllTodo()
+            hiddenFooter()
           }
           spanTodo.innerText = editTodo.value.trim()
           editTodo.classList.add('hidden')
@@ -178,7 +180,8 @@ function getActive() {
     buttonCompleted.classList.remove('on')
 
     todoList.forEach(item => {
-      if ((item.querySelector('span:first-child') as HTMLElement).classList.contains('completed')) {
+      if ((item.querySelector('span:first-child') as HTMLElement)
+        .classList.contains('completed')) {
         item.classList.add('hidden')
       } else {
         item.classList.remove('hidden')
@@ -192,7 +195,8 @@ function getActive() {
     buttonActive.classList.remove('on')
 
     todoList.forEach(item => {
-      if ((item.querySelector('span:first-child') as HTMLElement).classList.contains('completed')) {
+      if ((item.querySelector('span:first-child') as HTMLElement)
+        .classList.contains('completed')) {
         item.classList.remove('hidden')
       } else {
         item.classList.add('hidden')
@@ -245,7 +249,8 @@ function saveTodoList() {
   let todoStorage: Todo[] = []
   todoList.forEach((item) => {
     let text = (item.querySelector('span:first-child') as HTMLElement).innerText
-    let status = ((item.querySelector('span:first-child') as HTMLElement).getAttribute('class') as string)
+    let status = ((item.querySelector('span:first-child') as HTMLElement)
+      .getAttribute('class') as string)
 
     todoStorage.push({
       text,

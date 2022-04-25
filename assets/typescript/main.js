@@ -80,6 +80,8 @@ function editTodo() {
                     if (editTodo_1.value === '') {
                         _this.parentElement.remove();
                         count();
+                        tickAllTodo();
+                        hiddenFooter();
                     }
                     spanTodo.innerText = editTodo_1.value.trim();
                     editTodo_1.classList.add('hidden');
@@ -160,7 +162,8 @@ function getActive() {
         buttonAll.classList.remove('on');
         buttonCompleted.classList.remove('on');
         todoList.forEach(function (item) {
-            if (item.querySelector('span:first-child').classList.contains('completed')) {
+            if (item.querySelector('span:first-child')
+                .classList.contains('completed')) {
                 item.classList.add('hidden');
             }
             else {
@@ -174,7 +177,8 @@ function getActive() {
         buttonAll.classList.remove('on');
         buttonActive.classList.remove('on');
         todoList.forEach(function (item) {
-            if (item.querySelector('span:first-child').classList.contains('completed')) {
+            if (item.querySelector('span:first-child')
+                .classList.contains('completed')) {
                 item.classList.remove('hidden');
             }
             else {
@@ -229,7 +233,8 @@ function saveTodoList() {
     var todoStorage = [];
     todoList.forEach(function (item) {
         var text = item.querySelector('span:first-child').innerText;
-        var status = item.querySelector('span:first-child').getAttribute('class');
+        var status = item.querySelector('span:first-child')
+            .getAttribute('class');
         todoStorage.push({
             text: text,
             status: status
