@@ -1,25 +1,18 @@
-const inputContent = (<HTMLInputElement>document.querySelector('.add-content .add-input'))
-const form = (<HTMLFormElement>document.querySelector('form'))
-const todos = (<HTMLElement>document.querySelector('.list-todo'))
-const checkBox = document.querySelector('.checkbox');
-const all = 'all'
-const active = 'active'
-const completed = 'completed'
-const buttonAll = document.getElementById(all)
-const buttonActive = document.getElementById(active)
-const buttonCompleted = document.getElementById(completed)
+const inputContent = document.querySelector('.add-content .add-input') as HTMLInputElement
+const form = document.querySelector('form') as HTMLFormElement
+const todos = document.querySelector('.list-todo') as HTMLElement
 
 interface todo {
   text: string;
   status: string
 }
 form.addEventListener('submit', (e) => {
-  e.preventDefault()
+  e.preventDefault( )
   let contentValue: string = inputContent.value.trim()
   if (contentValue) {
     addTodoElement({
       text: contentValue,
-      status: '',
+      status: ''
     })
   }
   inputContent.value = ''
@@ -40,4 +33,21 @@ function addTodoElement(todo: todo) {
   `
   liTodo.setAttribute('class', 'item-todo general-size')
   todos.appendChild(liTodo)
+
+  //tick a todo completed
+  let spanTodo = liTodo.querySelector('span:first-child') as HTMLElement
+  spanTodo.addEventListener('click', function(e) {
+    this.classList.toggle('completed')
+  })
+
+  deleteATodo()
+}
+function deleteATodo() {
+  let itemTodos = document.querySelectorAll('.item-todo')
+  itemTodos.forEach(item => {
+    (item.querySelector('span:last-child') as HTMLElement)
+      .addEventListener('click', function(e) {
+        (this.parentElement as HTMLElement).remove()
+      })
+  })
 }
